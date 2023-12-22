@@ -1,0 +1,36 @@
+name: build-macos
+run-name: Build smallApp and codesign
+
+# make the action not run on the local repo if the branch is also in a pull request to OF/OF
+on:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-osx:
+    runs-on: macos-12
+
+    steps:
+        
+      - name: Checkout smallApp
+        uses: actions/checkout@v4
+        with:
+          path: smallApp
+          
+      #Building the project
+      - name: Building smallApp
+        run: |
+          cd ./smallApp/smallApp
+          ls -la
+          xcodebuild -arch x86_64 -configuration Release -target smallApp -project "smallApp.xcodeproj"
+
+      #Upload executable binaries to GitHub
+      - name: Uploading artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: smallApp
+          path: ./smallApp/smallApp/bin
