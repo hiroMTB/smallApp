@@ -28,6 +28,22 @@ jobs:
           ls -la
           xcodebuild -arch x86_64 -configuration Release -target smallApp -project "smallApp.xcodeproj"
 
+      #Codesign App
+      - name: Codesign with self-signed certificate
+        env:
+          #Get secrets stored in Github Action Secrets
+          MACOS_CERTIFICATE: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          MACOS_CERTIFICATE_PWD: ${{ secrets.P12_PASSWORD }}
+        run: |
+          echo $MACOS_CERTIFICATE | base64 —decode > certificate.p12
+          security create-keychain -p $KEYCHAIN_PASSWORD build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p $KEYCHAIN_PASSWORD build.keychain
+          security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k $KEYCHAIN_PASSWORD build.keychain
+          /usr/bin/codesign --force -s <identity-id> ./smallApp/bin/smallApp.app/Contents/Frameworks/libfmod.dylib -v
+          /usr/bin/codesign --force -s <identity-id> ./smallApp/bin/smallApp.app/Contents/MacOS/smallApp -v
+          /usr/bin/codesign -dv smallApp.app
       #Upload executable binaries to GitHub
       - name: Uploading artifacts
         uses: actions/upload-artifact@v4
