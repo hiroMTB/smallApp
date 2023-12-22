@@ -43,7 +43,7 @@ jobs:
           security import certificate.p12 -k build.keychain -P $MACOS_CERTIFICATE_PWD -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k $KEYCHAIN_PASSWORD build.keychain
           /usr/bin/codesign --force -s "of-cert" ./smallApp/bin/smallApp.app/Contents/MacOS/smallApp -v
-          /usr/bin/codesign -dv smallApp.app
+          /usr/bin/codesign -dv ./smallApp/bin/smallApp.app
       #Upload executable binaries to GitHub
       - name: Uploading artifacts
         uses: actions/upload-artifact@v4
