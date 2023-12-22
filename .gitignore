@@ -1,0 +1,6 @@
+.DS_Store
+/bin
+Assets.xcassets
+*.xcscheme
+*.xcworkspace
+Xcuserdata
