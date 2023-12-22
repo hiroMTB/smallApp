@@ -44,9 +44,14 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k $KEYCHAIN_PASSWORD build.keychain
           /usr/bin/codesign --force -s "of-cert" ./smallApp/bin/smallApp.app/Contents/MacOS/smallApp -v
           /usr/bin/codesign -dv ./smallApp/bin/smallApp.app
+
+      # Make tar file to maintain file permiossion
+      - name: 'Tar files'
+        run: tar -cvf smallApp.app.tar ./smallApp/bin
+
       #Upload executable binaries to GitHub
       - name: Uploading artifacts
         uses: actions/upload-artifact@v4
         with:
           name: smallApp
-          path: ./smallApp/bin
+          path: ./smallApp.app.tar
