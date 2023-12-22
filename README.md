@@ -1,6 +1,6 @@
-# smallApp macOS C++ proejct for build, codesign and release with Github Actions
-The project only needs less than a minute to chckout, compile, and codesign for shortest execution time.
-Tested with self-signed certificate made on my macOS, (without developer program)
+# small macOS C++ proejct for build, codesign and release with Github Actions
+The project only needs less than a minute to checkout, compile, and codesign for shortest execution time.
+Tested with self-signed certificate made on my macOS, without developer program.
 
 ## Memo
 - Apple's Official article for certificate and codesign
