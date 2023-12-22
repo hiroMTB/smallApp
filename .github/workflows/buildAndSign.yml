@@ -24,7 +24,7 @@ jobs:
       #Building the project
       - name: Building smallApp
         run: |
-          cd ./smallApp/smallApp
+          cd ./smallApp
           ls -la
           xcodebuild -arch x86_64 -configuration Release -target smallApp -project "smallApp.xcodeproj"
 
@@ -33,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: smallApp
-          path: ./smallApp/smallApp/bin
+          path: ./smallApp/bin
