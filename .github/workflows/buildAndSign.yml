@@ -7,7 +7,7 @@ on:
     # branches: [ main ]
     tags:
     - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
-    
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -62,5 +62,5 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: ""./smallApp.app.tar"
+          artifacts: "./smallApp.app.tar"
           #bodyFile: "README.md"
