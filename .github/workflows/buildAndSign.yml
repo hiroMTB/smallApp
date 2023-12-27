@@ -14,7 +14,7 @@ concurrency:
 
 permissions:
   contents: write
-  
+
 jobs:
   build-osx:
     runs-on: macos-12
@@ -65,5 +65,6 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
+          name: "smallApp ${{github.ref_name}}"
           artifacts: "./smallApp.app.tar"
           #bodyFile: "README.md"
