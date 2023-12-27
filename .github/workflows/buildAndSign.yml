@@ -4,8 +4,10 @@ run-name: Build smallApp and codesign
 # make the action not run on the local repo if the branch is also in a pull request to OF/OF
 on:
   push:
-    branches: [ main ]
-
+    # branches: [ main ]
+    tags:
+    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+    
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -50,8 +52,15 @@ jobs:
         run: tar -cvf smallApp.app.tar ./smallApp/bin
 
       #Upload executable binaries to GitHub
-      - name: Uploading artifacts
-        uses: actions/upload-artifact@v4
+      # - name: Uploading artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: smallApp
+      #     path: ./smallApp.app.tar
+
+      #Create Release
+      - name: Create Release
+        uses: ncipollo/release-action@v1
         with:
-          name: smallApp
-          path: ./smallApp.app.tar
+          artifacts: ""./smallApp.app.tar"
+          #bodyFile: "README.md"
